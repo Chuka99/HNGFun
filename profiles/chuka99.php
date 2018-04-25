@@ -1,88 +1,52 @@
 <?php
-require '../db.php';
+require 'db.php';
+?>
+<?php
+$result= $conn->query ("Select * from secret_word LIMIT 1");
+$result= $result->fetch(PDO::FETCH_OBJ);
+$secret_word=$result->secret_word;
+?>
+<?php
 
-  try {
-    $sql = "SELECT * FROM secret_word";
-    $secret_word_query = $conn->query($sql);
-    $secret_word_query->setFetchMode(PDO::FETCH_ASSOC);
-    $query_result = $secret_word_query->fetch();
-  
-    $sql_query = 'SELECT * FROM interns_data WHERE username="chuka99"';
-    $query_my_intern_db = $conn->query($sql_query);
-    $query_my_intern_db->setFetchMode(PDO::FETCH_ASSOC);
-    $intern_db_result = $query_my_intern_db->fetch();
+echo $user->name  
 
-  } catch (PDOException $exceptionError) {
-    throw $exceptionError;
-  }
+?>
 
-  $secret_word = $query_result['secret_word'];
-  $name = $intern_db_result['name'];
-  $username = $intern_db_result['username'];
-  $image_url = $intern_db_result['image_filename'];
-?><head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Profile Page</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    .profile-h1 {
-    text-align: center;
-    font-size: 25px;
-    margin-top: 40px;
-    margin-bottom: -30px;
-  }
-  .profile-card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
-  font-family: arial;
-  margin-top: 70px;
-}
-.profile-image {
-  height: 70%;
-  width: 100%;
-}
-.profile-title {
-  color: black;
-  font-size: 30px;
-  font-family: 'Open Sans Condensed';
-  margin-top: 15px;
-}
-.prop-username {
-  letter-spacing: 1px;
-  font-size: 15px;
-}
-.prop-name {
-  padding-bottom: 40px;
-  letter-spacing: 1px;
-  font-size: 15px;
-}
-.profile-name {
-  font-family: 'Open Sans Condensed';
-  font-size: 30px;
-}
-  </style>
+<?php 
+mysql_connect("localhost", "root", "");
+mysql_select_db("hng_fun");
+
+$name = $_POST['name'];
+$username = $_POST['username'];
+$username = $_POST['image_filename'];
+
+
+$qstr = "select * from `hng_fun`.`interns_data`";
+$query = mysql_query($qstr);
+
+//fetch from database
+$recs = mysql_fetch_assoc($query);
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
 </head>
 
-<main id="profileContainer" class="container">
-          
-
-
-<h1 class="profile-h1">My Profile</h1>
-          <div class="profile-card">
-            <img src="<?php echo $image_url ?>" alt="Chuka99" class="profile-image" />
-            <p class="profile-title">Username</p>
-            <p>
-            <?php
-              echo $username;
-            ?>
-            </p>
-            <p class="profile-name">Name</p>
-            <p class="prop-name"><?php
-              echo $name;
-            ?>  </p>
-          </div>
-        </main>
-
+<body>
+<?php 
+if($recs)
+{
+	echo "Welcome, ".$recs['name']." ".$recs['image_filename']."<br>";
+}
+else
+{
+	echo "No record found!";
+}
+?>
+<center>
+<img src="cloudinary.com/console/media_library/asset/image/upload/hng%2Fch" />
+</center> 
